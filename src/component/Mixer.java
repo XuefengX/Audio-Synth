@@ -72,10 +72,7 @@ public class Mixer implements AudioComponent{
      */
     @Override
     public void connectInput(int index, AudioComponent input) {
-        if(index < 0) throw new IllegalArgumentException();
-        else if(index > connectedAudios.size() - 1)
-            connectedAudios.add(input);
-        else
-            connectedAudios.set(index, input);
+        System.out.println("connect mixer");
+        connectedAudios.add(input);
     }
 }

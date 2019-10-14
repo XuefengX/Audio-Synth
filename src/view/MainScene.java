@@ -1,7 +1,6 @@
 package view;
 
-import widget.SineWave;
-import widget.Widget;
+import widget.*;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -11,6 +10,9 @@ import javafx.scene.control.Separator;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Render the main storyboard and set layout
@@ -28,6 +30,8 @@ public class MainScene {
     private static Button clearBtn;
     private static Button mixBtn;
     private static Button volumeBtn;
+    private static List<Widget> allWidgets = new ArrayList<>();
+    private static List<Cable> allCables = new ArrayList<>();
 
     /**
      * Render the main storyboard
@@ -92,8 +96,7 @@ public class MainScene {
             if(isClose) stage.close();
         });
 
-        soundMenu.getChildren().addAll(soundLabel, addBasic, squareWave, whiteNoise, triangleWave, sawtooth,
-                reverb, volumeBtn,
+        soundMenu.getChildren().addAll(soundLabel, addBasic, squareWave, whiteNoise, volumeBtn,
                 mixBtn);
         VBox optionMenu = new VBox(10);
         optionMenu.setPrefWidth(170);
@@ -125,23 +128,40 @@ public class MainScene {
      * Add widgets to the center
      * @return a StackPane contains new widgets
      */
-    private static StackPane setCenter(){
-        StackPane stackPane = new StackPane();
+    private static Pane setCenter(){
+        Pane stackPane = new Pane();
         addBasic.setOnAction(e -> {
             Widget sineWave = new SineWave();
+            allWidgets.add(sineWave);
             stackPane.getChildren().add(sineWave.getWidget());
+        });
+        squareWave.setOnAction(e -> {
+            Widget squareWave = new SquareWaveWidget();
+            allWidgets.add(squareWave);
+            stackPane.getChildren().add(squareWave.getWidget());
+        });
+        whiteNoise.setOnAction(e -> {
+            Widget whiteNoise = new WhiteNoiseWidget();
+            allWidgets.add(whiteNoise);
+            stackPane.getChildren().add(whiteNoise.getWidget());
         });
         volumeBtn.setOnAction(e -> {
             Widget volume = new widget.Volume();
+            allWidgets.add(volume);
             stackPane.getChildren().add(volume.getWidget());
         });
         mixBtn.setOnAction(e -> {
             Widget mixer = new widget.MixerWidget();
+            allWidgets.add(mixer);
             stackPane.getChildren().add(mixer.getWidget());
         });
         clearBtn.setOnAction(e -> {
+            allWidgets.clear();
+            allCables.clear();
             stackPane.getChildren().clear();
         });
+
+        WidgetsController.setOnPaneMouseAction(stackPane, allWidgets, allCables);
         return stackPane;
     }
 }

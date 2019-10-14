@@ -18,7 +18,6 @@ import javax.print.DocFlavor;
  * @author xuefeng Xu
  */
 public class SineWave extends Widget {
-    private Circle output;
     public SineWave(){
         super();
         Label name = new Label("SineWave");
@@ -42,22 +41,10 @@ public class SineWave extends Widget {
         hBox.setAlignment(Pos.CENTER);
         hBox.getChildren().addAll(volumeLabel, slider);
         hBox.setPadding(new Insets(0, 10, 0, 10));
-        output = new Circle(5);
-        output.setFill(Color.ALICEBLUE);
         HBox bottom = new HBox(38);
         bottom.setAlignment(Pos.CENTER_RIGHT);
         bottom.setPadding(new Insets(0, 30, 0 ,30));
         bottom.getChildren().addAll(playBtn, output);
         super.getWidget().getChildren().addAll(name, hBox, bottom);
-    }
-
-    @Override
-    public void connect(AudioComponent input) {}
-
-    public DotPosition getOutputPosition(){
-        DotPosition pos = new DotPosition();
-        pos.x = output.getTranslateX();
-        pos.y = output.getTranslateY();
-        return pos;
     }
 }

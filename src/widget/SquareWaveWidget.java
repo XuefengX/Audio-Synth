@@ -1,6 +1,5 @@
 package widget;
 
-import component.Filter;
 import component.Play;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -8,41 +7,35 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.HBox;
-/**
- * Widget for the volume
- *
- * @author xuefeng Xu
- */
-public class Volume extends Widget{
 
-    public Volume(){
+public class SquareWaveWidget extends Widget{
+    public SquareWaveWidget(){
         super();
-        Label name = new Label("Filter");
-        Label volumeLabel = new Label("Volume");
+        Label name = new Label("Square Wave");
+        Label volumeLabel = new Label("frequency");
         Slider slider = new Slider();
-        slider.setMaxWidth(120);
-        slider.setMax(20.0);
-        slider.setMin(0.0);
-        slider.setValue(3);
+        slider.setMaxWidth(100);
+        slider.setMax(2000.0);
+        slider.setMin(50.0);
+        slider.setValue(220.0);
         Button playBtn = new Button("Play");
-        Filter volume = new component.Filter(slider.getValue());
+        component.SquareWave squareWave = new component.SquareWave(slider.getValue());
         slider.valueProperty().addListener((observable, oldValue, newValue) -> {
-            volume.setVolumeScale(newValue.doubleValue());
+            squareWave.setFrequency(newValue.doubleValue());
         });
         playBtn.setOnAction(e -> {
-//            volume.connectInput(0, volume);
-            Play.play(volume);
+            squareWave.connectInput(0, squareWave);
+            Play.play(squareWave);
         });
-        this.audioComponent = volume;
+        super.audioComponent = squareWave;
         HBox hBox = new HBox(10);
         hBox.setAlignment(Pos.CENTER);
         hBox.getChildren().addAll(volumeLabel, slider);
         hBox.setPadding(new Insets(0, 10, 0, 10));
-
-        HBox bottom = new HBox(34);
+        HBox bottom = new HBox(38);
         bottom.setAlignment(Pos.CENTER_RIGHT);
         bottom.setPadding(new Insets(0, 30, 0 ,30));
-        bottom.getChildren().addAll(input, playBtn, output);
+        bottom.getChildren().addAll(playBtn, output);
         super.getWidget().getChildren().addAll(name, hBox, bottom);
     }
 }
